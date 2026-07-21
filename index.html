@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solar Fácil — Calcule sua economia real com energia solar | Todo o Brasil</title>
+<meta name="description" content="Calcule em 30 segundos a economia real da energia solar na sua conta de luz, com a irradiação e a tarifa do seu estado. Sem vendedor, sem cadastro. Cálculo honesto, já com o Fio B da Lei 14.300. Energia solar e baterias de lítio em todo o Brasil.">
+<meta name="theme-color" content="#FDB813">
+<link rel="canonical" href="https://solarfacill.com.br/">
+
+<!-- Marca na aba do navegador e nos favoritos / tela inicial -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<!-- Preview de compartilhamento (WhatsApp, Instagram, redes). A URL precisa
+     ser ABSOLUTA quando o site estiver no ar — por isso solarfacill.com.br. -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://solarfacill.com.br/">
+<meta property="og:site_name" content="Solar Fácil">
+<meta property="og:title" content="Solar Fácil — Descubra sua economia real com energia solar">
+<meta property="og:description" content="Calcule sua economia em 30 segundos, com o sol e a tarifa do seu estado. Sem falar com vendedor. Cálculo honesto, já descontando o Fio B.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://solarfacill.com.br/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Solar Fácil — Calcule sua economia real com energia solar">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Solar Fácil — Descubra sua economia real com energia solar">
+<meta name="twitter:description" content="Calcule sua economia na tela, já com o Fio B descontado. Sem prometer 95%.">
+<meta name="twitter:image" content="https://solarfacill.com.br/assets/og.png">
+
+<style>
+/* ============================================================
+   SOLAR FÁCIL — LP principal
+   Zero dependências externas. Zero jQuery. Zero framework.
+   Tudo inline = 1 requisição = first paint quase imediato.
+   ============================================================ */
+
+:root{
+  /* ============================================================
+     Paleta tirada do logo da Solar Fácil.
+     Frios: navy do "SOLAR" + azul do "FÁCIL" + azul do swoosh.
+     Quentes: amarelo do sol + laranja do "S" e do triângulo do A.
+     ============================================================ */
+  /* ============================================================
+     DOIS AZUIS, e a diferença é obrigatória.
+
+     --azul       #3B8FE8  o azul do swoosh do logo. Claro e vivo.
+                  Serve pra PREENCHER (botões, chips, barras, bordas).
+                  Texto em cima dele tem que ser NAVY: branco dá 3,34
+                  e some no celular sob sol. Com navy dá 5,30. ✓
+
+     --azul-texto #0A62E0  o mesmo azul, escurecido até virar LETRA
+                  legível em QUALQUER fundo claro do site: 5,47 em branco,
+                  5,33 no off-white, 4,85 nas tintas azuis. É o azul dos
+                  links, dos olhos de seção e de todo texto azul.
+                  #3B8FE8 como letra dá 3,34 e reprova.
+
+     Regra: azul que se ocupa, --azul. Azul que se lê, --azul-texto.
+     ============================================================ */
+  --azul:#3B8FE8;          /* azul elétrico do swoosh — preenchimento */
+  --azul-texto:#0A62E0;    /* azul elétrico escuro — texto e links (passa em branco, off-white e nas tintas azuis) */
+  --azul-hover:#2B7FD9;
+  --azul-luz:#7CB8F5;      /* brilhos */
+  --azul-escuro:#1C6BC0;   /* sombra dos botões azuis */
+  --sobre-azul:#0B1733;    /* cor do texto que fica EM CIMA do --azul */
+  --azul-vidro:#EAF1FD;    /* superfície azul bem clara p/ acentos */
+  --navy:#0B1733;          /* navy da palavra "SOLAR" */
+  --navy-2:#12295C;        /* navy dos painéis solares */
+  --dourado:#FDB813;       /* amarelo dourado — o sol */
+  --dourado-lt:#FFCF4D;
+  --dourado-dk:#C77F0A;
+  --laranja:#F7941D;       /* laranja do "S" e do triângulo do A */
+  --branco:#FFFFFF;
+  --off:#FAF8F2;         /* branco-papel quente */
+  --azul-tinta:#F4F1E9;   /* pedra quente — seções alternadas */
+  --linha:#EAE4D8;         /* fio de cabelo quente */
+  --tinta:#0B1733;
+  --tinta-3:#6A6353;       /* cinza quente */
+  --verde:#068049;        /* escurecido: com #00B368 o texto branco do botão dava 2,75 e reprovava */
+
+  --raio:12px;
+  --raio-lg:18px;
+  --sombra:0 1px 2px rgba(11,23,51,.04), 0 12px 32px rgba(11,23,51,.06);
+  --sombra-lg:0 2px 6px rgba(11,23,51,.04), 0 30px 70px rgba(11,23,51,.11);
+  --fonte:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  /* Fonte técnica do sistema — zero download. Dá aos números o ar de
+     leitura de instrumento, não de anúncio. */
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"Roboto Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --maxw:1180px;
+  /* Física do movimento — uma curva só em todo o site = sensação fluida e
+     coesa. Ease-out suave (desacelera no fim, sem estica-e-puxa). */
+  --ease:cubic-bezier(.22,1,.36,1);
+  --entra:.72s;   /* duração da entrada dos elementos */
+  --toque:.24s;   /* duração das micro-interações (hover) */
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+
+/* ============================================================
+   MOVIMENTO
+   Tudo em CSS. Zero biblioteca — a página não pode engordar,
+   porque velocidade é o argumento comercial dela.
+
+   A classe .rv só é aplicada pelo JavaScript. Se o JS não
+   rodar, nada fica escondido: o site aparece inteiro.
+   ============================================================ */
+.rv{
+  opacity:0;
+  transform:translateY(26px) scale(.986);
+  transition:opacity var(--entra) var(--ease), transform var(--entra) var(--ease);
+  will-change:opacity, transform;
+}
+.rv.vis{opacity:1;transform:none;will-change:auto}
+
+/* entrada do topo, no carregamento */
+.hero-txt, .hero-form{animation:entra .85s var(--ease) both}
+.hero-form{animation-delay:.12s}
+@keyframes entra{from{opacity:0;transform:translateY(26px) scale(.99)}to{opacity:1;transform:none}}
+
+/* barras do Fio B crescendo quando a seção aparece */
+.degrau .fill{transition:height 1s var(--ease)}
+
+/* Quem prefere menos movimento, recebe menos movimento.
+   Regra de acessibilidade do sistema — não é opcional. */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .hero-txt, .hero-form{animation:none}
+  .degrau .fill{transition:none}
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+body{
+  font-family:var(--fonte);
+  color:var(--tinta);
+  background:var(--branco);
+  line-height:1.65;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Tipografia ---------- */
+h1,h2,h3{line-height:1.08;letter-spacing:-.032em;font-weight:600}
+h1{font-size:clamp(2.2rem,5.4vw,3.9rem);font-weight:600}
+h2{font-size:clamp(1.75rem,3.8vw,2.75rem)}
+h3{font-size:1.16rem;line-height:1.3}
+.olho{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--azul-texto);margin-bottom:14px;
+}
+.olho::before{content:"";width:22px;height:2px;background:var(--dourado);border-radius:2px}
+.olho.claro{color:var(--azul-texto)}
+.lead{font-size:1.13rem;color:var(--tinta-3);line-height:1.6;font-weight:400}
+.dourado{
+  /* Dourado como letra em fundo claro dá 1,74 de contraste — ilegível.
+     Então ele vira grifo: traço dourado atrás, letra navy por cima.
+     Navy sobre dourado dá 10,17. A cor da marca fica, a leitura também. */
+  color:var(--tinta);
+  background:linear-gradient(transparent 60%, var(--dourado) 60%);
+  padding:0 .06em;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+
+/* ---------- Botões ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:17px 30px;border:0;border-radius:var(--raio);
+  font-weight:600;font-size:1.01rem;letter-spacing:-.01em;
+  cursor:pointer;text-decoration:none;
+  transition:transform var(--toque) var(--ease), box-shadow var(--toque) var(--ease), background var(--toque) var(--ease);
+  min-height:56px; /* alvo de toque confortável */
+}
+.btn:active{transform:translateY(1px)}
+.btn-ouro{background:var(--dourado);color:#2A1D00;box-shadow:0 1px 2px rgba(42,29,0,.14)}
+.btn-ouro:hover{background:var(--dourado-lt);transform:translateY(-1px);box-shadow:0 8px 22px rgba(216,150,0,.32)}
+.btn-ouro:active{transform:translateY(0);box-shadow:0 1px 2px rgba(42,29,0,.14)}
+.btn-azul{background:var(--azul-texto);color:#fff;box-shadow:0 1px 2px rgba(10,98,224,.28)}
+.btn-azul:hover{background:#094FB8;transform:translateY(-1px);box-shadow:0 8px 22px rgba(10,98,224,.3)}
+.btn-zap{background:var(--verde);color:#fff;box-shadow:0 1px 2px rgba(4,92,52,.2)}
+.btn-zap:hover{background:#079457;transform:translateY(-1px);box-shadow:0 8px 22px rgba(6,128,73,.28)}
+.btn-fantasma{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.btn-fantasma:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn-bloco{width:100%}
+
+/* ---------- Topo ---------- */
+header{
+  position:sticky;top:0;z-index:60;
+  background:rgba(255,255,255,.86);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--linha);
+}
+.topo{display:flex;align-items:center;justify-content:space-between;gap:16px;height:100px}
+/* Marca o fim do hero para o botão flutuante do WhatsApp.
+   Precisa de 1px de altura: elemento com área zero nunca
+   dispara o IntersectionObserver. */
+#sentinela{height:1px}
+
+.logo{display:flex;align-items:center;gap:11px;text-decoration:none;flex-shrink:0}
+/* O logo só aparece quando o arquivo existir em assets/.
+   Enquanto não existir, a marca em texto (.logo-fallback) fica. */
+.logo-img{display:none}
+/* Cabeçalho usa o LOGO INTEIRO (com as letras), por isso o header é mais alto. */
+.logo-img.ok{display:block;height:82px;width:auto}
+/* Logo quadrado/empilhado: mostra inteiro, num quadrado, sem recorte. */
+.logo-img.ok.quadrado{height:54px;width:54px;object-fit:contain;object-position:center}
+.logo-fallback{display:flex;align-items:center;gap:11px}
+.logo-fallback.off{display:none}
+@media(max-width:520px){
+  .logo-img.ok{height:58px}
+  .logo-img.ok.quadrado{height:44px;width:44px}
+}
+
+.logo-mark{
+  width:40px;height:40px;border-radius:11px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--azul) 0%,var(--azul-texto) 100%);
+  display:grid;place-items:center;box-shadow:0 3px 10px rgba(11,107,245,.34);
+}
+.logo-mark svg{width:23px;height:23px}
+.logo-txt{font-weight:700;font-size:1.2rem;letter-spacing:-.04em;line-height:1}
+.logo-txt small{display:block;font-size:.56rem;font-weight:700;letter-spacing:.2em;color:var(--tinta-3);margin-top:3px}
+.topo-nav{display:flex;align-items:center;gap:28px}
+.topo-nav a{font-size:.93rem;font-weight:600;color:var(--tinta-3);text-decoration:none}
+.topo-nav a:hover{color:var(--azul-texto)}
+.topo-cta{padding:11px 20px;font-size:.9rem;min-height:44px}
+@media(max-width:640px){.topo{height:74px}}
+@media(max-width:900px){.topo-nav{display:none}}
+@media(max-width:420px){.topo-cta{padding:10px 14px;font-size:.82rem}}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;
+  background:
+    radial-gradient(900px 480px at 92% -10%, rgba(253,184,19,.16), transparent 58%),
+    linear-gradient(180deg,#FFFFFF 0%,var(--off) 100%);
+  color:var(--tinta);overflow:hidden;
+}
+/* hero limpo — sem grade, o minimalismo pede menos textura */
+.hero-grid{
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+  padding:72px 0 88px;
+}
+.hero h1{color:var(--tinta);margin-bottom:20px}
+.hero h1 em{
+  font-style:normal;color:var(--tinta);white-space:nowrap;
+  background:linear-gradient(transparent 60%, var(--dourado) 60%);
+  padding:0 .06em;box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.hero-sub{font-size:1.13rem;color:var(--tinta-3);max-width:47ch;margin-bottom:26px}
+.hero-sub b{color:var(--tinta);font-weight:700}
+
+.selos{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:26px}
+.selo{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#fff;border:1px solid var(--linha);
+  padding:8px 14px;border-radius:999px;font-size:.8rem;font-weight:700;color:var(--tinta);
+}
+.selo svg{width:14px;height:14px;flex-shrink:0;color:var(--azul-texto)}
+
+.provinha{display:flex;align-items:center;gap:12px;font-size:.86rem;color:var(--tinta-3)}
+.provinha strong{color:var(--tinta)}
+
+/* ---------- SIMULADOR ---------- */
+.sim{
+  background:#fff;border-radius:var(--raio-lg);
+  box-shadow:var(--sombra-lg);
+  color:var(--tinta);overflow:hidden;
+  border:1px solid var(--linha);
+}
+.sim-topo{
+  background:var(--dourado);
+  color:#2A1D00;padding:22px 26px;
+}
+.sim-topo h2{font-size:1.24rem;margin-bottom:4px;letter-spacing:-.02em}
+.sim-topo p{font-size:.85rem;color:#6B3E00;line-height:1.4}
+.sim-fiob{margin-top:8px;font-size:.72rem !important;color:#5A3400 !important;line-height:1.45}
+/* Selo "cálculo ao vivo" — assina o simulador como instrumento em tempo real */
+.live{
+  display:inline-flex;align-items:center;gap:7px;margin-bottom:10px;
+  font-family:var(--mono);font-size:.66rem;font-weight:700;letter-spacing:.18em;
+  color:#5A3200;background:rgba(255,255,255,.45);
+  padding:4px 10px;border-radius:999px;border:1px solid rgba(93,50,0,.18);
+}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#1F9E56;box-shadow:0 0 0 0 rgba(31,158,86,.6);animation:pulso 2s ease-out infinite}
+@keyframes pulso{
+  0%{box-shadow:0 0 0 0 rgba(31,158,86,.55)}
+  70%{box-shadow:0 0 0 7px rgba(31,158,86,0)}
+  100%{box-shadow:0 0 0 0 rgba(31,158,86,0)}
+}
+@media (prefers-reduced-motion: reduce){.live-dot{animation:none}}
+.sim-corpo{padding:26px}
+
+.campo{margin-bottom:18px}
+.dupla{display:grid;grid-template-columns:1.35fr 1fr;gap:12px}
+@media(max-width:420px){.dupla{grid-template-columns:1fr;gap:0}}
+.campo label{display:block;font-size:.83rem;font-weight:800;margin-bottom:8px;letter-spacing:-.01em}
+.campo .dica{font-weight:500;color:var(--tinta-3);font-size:.78rem}
+.controle{
+  width:100%;padding:15px 16px;border:1px solid var(--linha);border-radius:11px;
+  background:var(--off);font-size:1rem;font-weight:600;
+  transition:border-color var(--toque) var(--ease), box-shadow var(--toque) var(--ease), background var(--toque) var(--ease);
+  min-height:54px;
+}
+.controle:focus{outline:0;border-color:var(--dourado);background:#fff;box-shadow:0 0 0 4px rgba(253,184,19,.28)}
+select.controle{appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235A6785' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:17px;padding-right:42px;
+}
+.moeda{position:relative}
+.moeda span{
+  position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-weight:700;color:var(--tinta-3);pointer-events:none;font-size:1rem;
+}
+.moeda input{font-family:var(--mono);font-variant-numeric:tabular-nums;padding-left:42px;font-size:1.16rem;font-weight:700;letter-spacing:-.02em}
+
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.chip{
+  padding:11px 6px;border:1px solid var(--linha);background:#fff;border-radius:10px;
+  font-size:.84rem;font-weight:800;cursor:pointer;text-align:center;
+  transition:all var(--toque) var(--ease);min-height:44px;
+}
+.chip:hover{border-color:var(--dourado);color:var(--dourado-dk)}
+.chip.on{background:var(--dourado);border-color:var(--dourado);color:#3D2200;box-shadow:0 3px 10px rgba(253,184,19,.4)}
+
+.erro{color:#D62B2B;font-size:.8rem;font-weight:700;margin-top:7px;display:none}
+.erro.ver{display:block}
+
+.mini{font-size:.75rem;color:var(--tinta-3);text-align:center;margin-top:12px;line-height:1.45}
+.mini svg{width:11px;height:11px;vertical-align:-1px;margin-right:3px;color:var(--verde)}
+
+/* ---------- Resultado ---------- */
+.resultado{display:none}
+.resultado.ver{display:block;animation:sobe .45s cubic-bezier(.16,1,.3,1)}
+@keyframes sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+.res-hero{
+  /* mesmo gradiente do sol do logo: amarelo em cima, laranja embaixo */
+  background:var(--dourado);
+  padding:26px;text-align:center;color:#2A1D00;
+}
+.res-hero .rot{font-size:.76rem;font-weight:900;letter-spacing:.13em;text-transform:uppercase;opacity:.72}
+.res-hero .num{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:clamp(2.4rem,8vw,3.3rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin:2px 0}
+.res-hero .sub{font-size:.87rem;font-weight:700;opacity:.78}
+
+.res-linhas{padding:22px 26px;display:grid;gap:1px;background:var(--linha);border-radius:12px;overflow:hidden;margin:22px 26px 0}
+.res-linha{display:flex;justify-content:space-between;align-items:center;gap:14px;background:#fff;padding:13px 16px}
+.res-linha span{font-size:.87rem;color:var(--tinta-3);font-weight:600}
+.res-linha strong{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.02rem;font-weight:700;letter-spacing:-.02em;text-align:right}
+.res-linha.destaque{background:#FFF8E6}
+.res-linha.destaque strong{color:#8A5800}  /* âmbar escuro: 5,70 sobre a tinta dourada. Dourado puro daria 1,65 */
+
+.transp{
+  margin:18px 26px 0;padding:14px 16px;background:var(--off);
+  border-left:3px solid var(--dourado);border-radius:8px;
+  font-size:.78rem;color:var(--tinta-3);line-height:1.55;
+}
+.transp b{color:var(--tinta)}
+
+.res-cta{padding:22px 26px 26px}
+.res-cta h3{margin-bottom:6px;letter-spacing:-.02em}
+.res-cta p{font-size:.86rem;color:var(--tinta-3);margin-bottom:16px}
+.voltar{
+  display:block;width:100%;text-align:center;background:none;border:0;
+  color:var(--tinta-3);font-size:.84rem;font-weight:700;cursor:pointer;
+  padding:12px;margin-top:6px;text-decoration:underline;text-underline-offset:3px;
+}
+.voltar:hover{color:var(--tinta)}
+
+/* ---------- CRO: reframe, reversão de risco, urgência ---------- */
+/* Financiamento na tela — a parcela ao lado da conta, antes do telefone.
+   Ninguém no setor mostra isso sem pedir contato. */
+.res-fin{margin:20px 26px 0;padding:18px 20px;border:1px solid #E7D4A0;border-radius:12px;background:#FFFDF6}
+.res-fin-tit{font-size:.95rem;font-weight:700;color:var(--tinta);margin-bottom:14px;letter-spacing:-.01em}
+.res-fin-nums{display:flex;align-items:stretch;gap:10px}
+.fin-col{flex:1;display:flex;flex-direction:column;gap:2px;text-align:center;padding:8px 6px;border-radius:9px}
+.fin-col > span{font-size:.68rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--tinta-3)}
+.fin-col strong{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.18rem;font-weight:700;letter-spacing:-.02em;color:var(--tinta)}
+.fin-col em{font-size:.7rem;font-style:normal;color:var(--tinta-3)}
+.fin-destaque{background:#FBEEC6}
+.fin-destaque strong{color:#7A5600}
+.fin-seta{display:flex;align-items:center;color:var(--tinta-3);font-weight:900;font-size:1.1rem}
+.res-fin-nota{margin-top:14px;font-size:.78rem;color:var(--tinta-3);line-height:1.55}
+.res-fin-nota b{color:var(--tinta)}
+@media(max-width:520px){
+  .res-fin-nums{flex-direction:column;gap:8px}
+  .fin-seta{transform:rotate(90deg);justify-content:center}
+  .fin-col{flex-direction:row;justify-content:space-between;text-align:left;background:var(--off)}
+  .fin-col em{margin-left:auto}
+}
+
+/* marca discreta no resultado — vai junto no print que o cliente compartilha */
+.res-marca{display:flex;align-items:center;justify-content:center;gap:8px;margin:14px 26px 0;opacity:.72}
+.res-marca img{height:20px;width:auto}
+.res-marca span{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--tinta-3)}
+.res-reframe{margin:16px 26px 0;font-size:.82rem;color:var(--tinta-3);line-height:1.55}
+.res-reframe b{color:var(--tinta)}
+.res-nota span{font-size:.78rem !important;color:var(--tinta-3);font-weight:400 !important;font-family:var(--fonte) !important;line-height:1.45}
+.res-nota{justify-content:flex-start !important}
+.res-urg{margin:16px 26px 0;font-size:.8rem;color:var(--tinta-3);line-height:1.5;padding:10px 14px;background:var(--off);border-left:3px solid var(--dourado);border-radius:8px}
+.res-urg b{color:var(--tinta)}
+.passos-zap{display:grid;gap:8px;margin-top:14px}
+.passos-zap span{position:relative;padding-left:20px;font-size:.78rem;color:var(--tinta-3);line-height:1.4}
+.passos-zap span::before{content:"";position:absolute;left:0;top:6px;width:9px;height:9px;border-radius:50%;background:var(--dourado)}
+.zap-nota{margin-top:12px;font-size:.78rem;color:var(--tinta-3);line-height:1.5;text-align:center}
+.res-link{display:block;text-align:center;margin-top:14px;font-size:.82rem;font-weight:600;color:var(--tinta);text-decoration:underline;text-underline-offset:3px}
+.res-link:hover{color:var(--dourado-dk)}
+
+/* ---------- CRO: barra fixa de CTA no mobile ---------- */
+.barra-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:65;
+  display:none;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.92);backdrop-filter:blur(14px);
+  border-top:1px solid var(--linha);box-shadow:0 -6px 24px rgba(11,23,51,.08);
+}
+.barra-cta .btn{width:100%;min-height:54px}
+.barra-cta .barra-eco{
+  display:none;font-family:var(--mono);font-size:.72rem;font-weight:700;
+  color:var(--tinta-3);text-align:center;margin-bottom:6px;
+}
+.barra-cta.eco .barra-eco{display:block}
+@media(max-width:940px){
+  .barra-cta.ver{display:block}
+  .zap-flut{display:none !important}   /* no mobile só a barra, nunca os dois */
+}
+
+@media(max-width:940px){
+  .hero-grid{grid-template-columns:1fr;gap:30px;padding:34px 0 46px}
+  /* MOBILE: simulador PRIMEIRO. A EletroBidu enterra o form abaixo da dobra — nós não. */
+  .hero-txt{order:2}
+  .hero-form{order:1}
+  .hero h1{font-size:1.9rem}
+  .hero-sub{font-size:1rem;margin-bottom:20px}
+  .selos{margin-bottom:0}
+  .sim-corpo,.sim-topo{padding:20px}
+  .res-linhas,.transp,.res-cta{margin-left:20px;margin-right:20px}
+  .res-cta{padding:20px}
+}
+
+/* ---------- Faixa de confiança ---------- */
+.faixa{background:#fff;color:var(--tinta);padding:22px 0;border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.faixa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+.faixa-item strong{display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:700;color:var(--azul-texto);letter-spacing:-.03em}
+.faixa-item span{font-size:.76rem;color:var(--tinta-3);font-weight:600}
+@media(max-width:760px){.faixa-grid{grid-template-columns:repeat(2,1fr);gap:18px}}
+
+/* ---------- Seções ---------- */
+section{padding:108px 0;scroll-margin-top:112px}
+#simulador,#passo2{scroll-margin-top:112px}
+@media(max-width:940px){body{padding-bottom:84px}}
+/* Blueprint sutil: grade técnica quase invisível nas seções claras.
+   Puro CSS, custo zero, some nas bordas com uma máscara. */
+.sec-off{background:var(--off)}
+.sec-navy{background:var(--azul-tinta);color:var(--tinta)}
+.sec-navy h2{color:var(--tinta)}
+.sec-navy .lead{color:var(--tinta-3)}
+.cabeca{max-width:680px;margin-bottom:56px}
+.cabeca.meio{margin-left:auto;margin-right:auto;text-align:center}
+.cabeca h2{margin-bottom:14px}
+@media(max-width:760px){section{padding:72px 0}.cabeca{margin-bottom:36px}}
+
+/* ---------- Verdade / Fio B ---------- */
+.verdade{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
+.card-v{border-radius:var(--raio-lg);padding:32px;border:1px solid}
+.card-v .tag{
+  display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 11px;border-radius:6px;margin-bottom:14px;
+}
+.card-v h3{margin-bottom:12px;font-size:1.3rem}
+.card-v p{font-size:.94rem;line-height:1.65}
+.card-eles{background:#fff;border-color:var(--linha)}
+.card-eles .tag{background:#F0EBE2;color:#6A5B44}
+.card-eles p{color:var(--tinta-3)}
+.card-nos{background:#fff;border-color:#E7D4A0}
+.card-nos .tag{background:#FBEEC6;color:#7A5600}
+.card-nos p{color:var(--tinta-3)}
+@media(max-width:840px){.verdade{grid-template-columns:1fr}}
+
+.fiob{
+  margin-top:26px;background:#fff;border:1px solid var(--linha);
+  border-radius:var(--raio-lg);padding:30px;box-shadow:var(--sombra);
+}
+.fiob h3{margin-bottom:8px}
+.fiob > p{font-size:.94rem;color:var(--tinta-3);margin-bottom:22px;max-width:72ch}
+.escada-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:26px;padding-top:24px;border-top:1px solid var(--linha)}
+.escada-cta h3{margin-bottom:6px}
+.escada-cta p{font-size:.9rem;color:var(--tinta-3);line-height:1.55;max-width:62ch;margin:0}
+.escada-cta .btn{flex-shrink:0}
+@media(max-width:640px){.escada-cta .btn{width:100%}}
+.escada{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.degrau{text-align:center}
+.degrau .barra{
+  height:88px;border-radius:8px 8px 0 0;display:flex;align-items:flex-end;justify-content:center;
+  background:linear-gradient(180deg,var(--linha),#E9EFFA);position:relative;overflow:hidden;
+}
+.degrau .fill{width:100%;background:linear-gradient(180deg,var(--azul-luz),var(--azul));border-radius:8px 8px 0 0}
+.degrau.hoje .fill{background:linear-gradient(180deg,var(--dourado-lt),var(--dourado))}
+.degrau .pct{font-size:.72rem;font-weight:900;margin-top:6px}
+.degrau .ano{font-size:.68rem;color:var(--tinta-3);font-weight:700}
+.degrau.hoje .ano{color:var(--dourado-dk);font-weight:900}
+@media(max-width:640px){.escada{grid-template-columns:repeat(7,1fr);gap:4px}.degrau .barra{height:64px}.degrau .pct{font-size:.6rem}.degrau .ano{font-size:.56rem}}
+
+/* ---------- Diferenciais ---------- */
+.difs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.dif{
+  background:#fff;border:1px solid var(--linha);border-radius:var(--raio-lg);
+  padding:30px;transition:transform var(--toque) var(--ease), box-shadow var(--toque) var(--ease), border-color var(--toque) var(--ease);
+}
+.dif:hover{transform:translateY(-4px);box-shadow:var(--sombra);border-color:#9EC0F0}
+.dif-ico{
+  width:48px;height:48px;border-radius:12px;display:grid;place-items:center;margin-bottom:16px;
+  background:var(--azul-vidro);
+}
+.dif-ico svg{width:23px;height:23px;color:var(--azul-texto);stroke-width:1.75}
+.dif h3{margin-bottom:8px}
+.dif p{font-size:.92rem;color:var(--tinta-3);line-height:1.62}
+@media(max-width:900px){.difs{grid-template-columns:1fr}}
+
+/* ---------- Sobre nós / propósito ---------- */
+.sobre-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:44px;align-items:start}
+.sobre-texto p{font-size:1rem;line-height:1.75;color:var(--tinta-3);margin-bottom:18px}
+.sobre-texto p b{color:var(--tinta);font-weight:700}
+.sobre-texto .destaque{
+  font-size:1.16rem;line-height:1.6;color:var(--tinta);font-weight:600;
+  border-left:3px solid var(--dourado);padding-left:20px;margin-bottom:26px;
+}
+.sobre-texto .assinatura-linha{
+  background:var(--off);border-radius:12px;padding:18px 20px;
+  font-size:1.02rem;color:var(--tinta);line-height:1.6;margin-top:26px;margin-bottom:0;
+}
+.sobre-texto .assinatura-linha b{color:var(--tinta)}
+
+/* Faixa do CTA de WhatsApp, logo abaixo do simulador */
+.sec-zap{padding:44px 0 0}
+@media(max-width:760px){.sec-zap{padding:32px 0 0}}
+
+/* O card do CTA de WhatsApp */
+.sobre-cta{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:26px;flex-wrap:wrap;
+  background:var(--azul-tinta);border:1px solid var(--linha);
+  border-radius:var(--raio-lg);padding:30px 32px;
+}
+.sobre-cta h3{color:var(--tinta);font-size:1.24rem;margin-bottom:7px;letter-spacing:-.02em}
+.sobre-cta p{font-size:.92rem;color:var(--tinta-3);line-height:1.6;max-width:56ch;margin:0}
+.sobre-cta .btn{flex-shrink:0}
+@media(max-width:720px){
+  .sobre-cta{padding:24px;gap:20px}
+  .sobre-cta .btn{width:100%}
+}
+
+/* Os dois pilares do propósito */
+.pilares{display:grid;gap:14px;margin:24px 0 26px}
+.pilar{
+  display:flex;gap:16px;align-items:flex-start;
+  background:#fff;border:1px solid var(--linha);border-radius:var(--raio-lg);
+  padding:24px;transition:border-color var(--toque) var(--ease), box-shadow var(--toque) var(--ease), transform var(--toque) var(--ease);
+}
+.pilar:hover{border-color:var(--dourado);box-shadow:var(--sombra)}
+.pilar-n{
+  flex-shrink:0;font-family:var(--mono);font-size:.95rem;font-weight:700;letter-spacing:-.02em;
+  width:42px;height:42px;border-radius:11px;display:grid;place-items:center;
+  background:var(--dourado);color:#2A1D00;
+}
+.pilar h3{font-size:1.08rem;margin-bottom:9px;letter-spacing:-.02em;line-height:1.25}
+.pilar p{font-size:.94rem;line-height:1.65;color:var(--tinta-3);margin:0}
+.pilar p b{color:var(--tinta)}
+@media(max-width:520px){
+  .pilar{padding:20px;gap:12px}
+  .pilar-n{width:34px;height:34px;font-size:.88rem;border-radius:9px}
+}
+
+.manifesto{
+  background:#fff;border:1px solid var(--linha);
+  border-radius:var(--raio-lg);padding:28px;color:var(--tinta);margin-bottom:18px;
+}
+.manifesto h3{font-size:1.06rem;margin-bottom:20px;color:var(--tinta)}
+.mani-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
+.mani-item:last-child{margin-bottom:0}
+.mani-x{
+  flex-shrink:0;width:22px;height:22px;border-radius:50%;
+  background:#EFEAE0;color:var(--tinta);
+  display:grid;place-items:center;font-size:.7rem;font-weight:900;margin-top:2px;
+}
+.mani-item strong{display:block;font-size:.92rem;margin-bottom:3px;color:var(--tinta)}
+.mani-item span{font-size:.84rem;color:var(--tinta-3);line-height:1.55;display:block}
+
+.citacao{
+  background:#fff;border:1px solid var(--linha);border-left:3px solid var(--dourado);
+  border-radius:12px;padding:24px;
+}
+.citacao p{
+  font-size:1rem;line-height:1.65;font-style:italic;color:var(--tinta);margin-bottom:18px;
+}
+.citacao footer{display:flex;align-items:center;gap:11px;border-top:1px solid var(--linha);padding-top:15px}
+.cit-foto{
+  height:76px;width:auto;max-width:118px;flex-shrink:0;
+  border-radius:11px;object-fit:cover;
+  border:1px solid var(--linha);box-shadow:var(--sombra);
+}
+.citacao footer strong{display:block;font-size:.9rem;font-style:normal}
+.citacao footer > span > span{font-size:.78rem;color:var(--tinta-3);font-style:normal}
+
+@media(max-width:900px){
+  .sobre-grid{grid-template-columns:1fr;gap:30px}
+  .sobre-texto .destaque{font-size:1.06rem;padding-left:16px}
+}
+
+/* ---------- Bateria de lítio ---------- */
+.bat-fluxo{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.fluxo{border-radius:var(--raio-lg);padding:26px;border:1.5px solid}
+.fluxo-sem{background:#fff;border-color:var(--linha)}
+.fluxo-com{background:#fff;border-color:#E7D4A0}
+.fluxo-tag{
+  display:inline-block;font-size:.7rem;font-weight:900;letter-spacing:.11em;text-transform:uppercase;
+  padding:5px 11px;border-radius:6px;margin-bottom:18px;
+}
+.fluxo-sem .fluxo-tag{background:#F0EBE2;color:#6A5B44}
+.fluxo-com .fluxo-tag{background:#FBEEC6;color:#7A5600}
+.fluxo-passos{display:grid;gap:13px}
+.fp{display:flex;gap:13px;align-items:flex-start}
+.fp-ico{
+  flex-shrink:0;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;
+  background:#fff;border:1px solid var(--linha);font-size:.95rem;line-height:1;
+}
+.fp strong{display:block;font-size:.92rem;margin-bottom:2px;letter-spacing:-.01em}
+.fp span:not(.fp-ico){font-size:.82rem;color:var(--tinta-3);line-height:1.5;display:block}
+.fp-alerta .fp-ico{background:#F0EBE2;border-color:var(--linha)}
+.fp-alerta strong{color:var(--tinta)}
+.fp-bom .fp-ico{background:#FBEEC6;border-color:#E7D4A0}
+.fp-bom strong{color:#7A5600}
+@media(max-width:840px){.bat-fluxo{grid-template-columns:1fr}}
+
+.bat-extra{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.bx{background:#fff;border:1px solid var(--linha);border-radius:var(--raio-lg);padding:26px}
+.bx h3{margin-bottom:9px;font-size:1.1rem}
+.bx p{font-size:.93rem;color:var(--tinta-3);line-height:1.65}
+.bx p b{color:var(--tinta)}
+@media(max-width:840px){.bat-extra{grid-template-columns:1fr}}
+
+.bat-honesto{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.bh{border-radius:var(--raio-lg);padding:26px;border:1.5px solid}
+.bh-sim{background:#fff;border-color:#E7D4A0}
+.bh-nao{background:#fff;border-color:var(--linha)}
+.bh h3{display:flex;align-items:center;gap:9px;font-size:1.06rem;margin-bottom:14px}
+.bh h3 span{
+  width:24px;height:24px;border-radius:50%;display:grid;place-items:center;
+  font-size:.76rem;font-weight:900;flex-shrink:0;
+}
+.bh-sim h3 span{background:#FBEEC6;color:#7A5600}
+.bh-nao h3 span{background:#F0EBE2;color:#6A5B44}
+.bh ul{list-style:none;display:grid;gap:9px}
+.bh li{font-size:.9rem;color:var(--tinta-3);line-height:1.5;padding-left:16px;position:relative}
+.bh li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--linha)}
+.bh-nota{margin-top:15px;padding-top:14px;border-top:1px solid var(--linha);font-size:.85rem;color:var(--tinta-3);line-height:1.55}
+.bh-nota b{color:var(--tinta)}
+@media(max-width:840px){.bat-honesto{grid-template-columns:1fr}}
+
+/* ---------- Passos ---------- */
+.passos{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:p}
+.passo{position:relative;padding-top:44px}
+.passo::before{
+  counter-increment:p;content:counter(p);
+  position:absolute;top:0;left:0;width:34px;height:34px;border-radius:50%;
+  background:var(--dourado);color:#2A1D00;font-weight:900;font-size:.92rem;
+  display:grid;place-items:center;
+}
+.passo::after{
+  content:"";position:absolute;top:17px;left:42px;right:-14px;height:2px;
+  background:repeating-linear-gradient(90deg,rgba(11,23,51,.22) 0 5px,transparent 5px 10px);
+}
+.passo:last-child::after{display:none}
+.passo h3{font-size:1rem;margin-bottom:6px;color:var(--tinta)}
+.passo p{font-size:.85rem;color:var(--tinta-3);line-height:1.55}
+@media(max-width:900px){
+  .passos{grid-template-columns:1fr;gap:22px}
+  .passo{padding-top:0;padding-left:50px}
+  .passo::after{display:none}
+}
+
+.aviso-edit{
+  margin-top:22px;padding:15px 18px;border-radius:12px;
+  background:#FFFBEB;border:1.5px dashed var(--dourado);
+  font-size:.83rem;color:#7A5B00;line-height:1.55;
+}
+.aviso-edit b{color:#4D3A00}
+
+/* ---------- FAQ ---------- */
+.faq{max-width:820px;margin:0 auto}
+.q{border-bottom:1px solid var(--linha)}
+.q summary{
+  padding:22px 44px 22px 0;font-weight:800;font-size:1.03rem;cursor:pointer;
+  list-style:none;position:relative;letter-spacing:-.015em;
+}
+.q summary::-webkit-details-marker{display:none}
+.q summary::after{
+  content:"";position:absolute;right:6px;top:50%;width:11px;height:11px;
+  border-right:2.5px solid var(--azul-texto);border-bottom:2.5px solid var(--azul-texto);
+  transform:translateY(-70%) rotate(45deg);transition:transform .2s;
+}
+.q[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+.q summary:hover{color:var(--azul-texto)}
+.q .a{padding:0 20px 22px 0;font-size:.95rem;color:var(--tinta-3);line-height:1.68}
+.q .a b{color:var(--tinta)}
+
+/* ---------- CTA final ---------- */
+.fim{
+  background:linear-gradient(135deg,var(--dourado-lt) 0%,var(--dourado) 50%,var(--laranja) 100%);
+  border-radius:26px;padding:56px 44px;text-align:center;color:#3D2200;
+  box-shadow:0 24px 60px rgba(253,184,19,.32);
+}
+.fim h2{color:#3D2200;margin-bottom:12px}
+.fim p{font-size:1.06rem;margin-bottom:18px;opacity:.82;max-width:56ch;margin-left:auto;margin-right:auto}
+.fim-urg{font-size:.9rem !important;color:#3D2200;opacity:.9;max-width:60ch;margin:0 auto 26px !important;line-height:1.5}
+.fim-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+@media(max-width:640px){.fim{padding:38px 22px;border-radius:20px}.fim-btns .btn{width:100%}}
+
+/* ---------- Rodapé ----------
+   Escopado em body > footer de propósito: um seletor `footer` solto
+   vazaria para o <footer> dentro do blockquote de citação. */
+body > footer{background:var(--off);color:var(--tinta-3);padding:56px 0 28px;font-size:.88rem;border-top:1px solid var(--linha)}
+.pe{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:36px;margin-bottom:36px}
+/* Logo do rodapé: só aparece quando o arquivo existir em assets/.
+   Enquanto não existir, a marca em texto (#logoPeTxt) fica no lugar. */
+.logo-pe{display:none;height:96px;width:auto;margin-bottom:14px}
+.logo-pe.ok{display:block}
+.logo-pe.ok.quadrado{height:104px;width:104px;object-fit:contain;object-position:center}
+#logoPeTxt.off{display:none}
+@media(max-width:800px){.logo-pe{height:76px}.logo-pe.ok.quadrado{height:84px;width:84px}}
+
+.pe h4{color:var(--tinta);font-size:.8rem;letter-spacing:.11em;text-transform:uppercase;margin-bottom:14px;font-weight:800}
+.pe a{display:block;color:var(--tinta-3);text-decoration:none;margin-bottom:9px}
+.pe a:hover{color:var(--azul-texto)}
+.pe .logo-txt{color:var(--tinta)}
+.pe .logo-txt small{color:var(--tinta-3)}
+.pe p{line-height:1.65;max-width:44ch;margin-top:14px}
+.pe-fim{border-top:1px solid var(--linha);padding-top:22px;font-size:.78rem;line-height:1.7}
+@media(max-width:800px){.pe{grid-template-columns:1fr;gap:26px}}
+
+/* ---------- WhatsApp flutuante ---------- */
+.zap-flut{
+  position:fixed;right:18px;bottom:18px;z-index:70;
+  width:58px;height:58px;border-radius:50%;background:var(--verde);
+  display:grid;place-items:center;box-shadow:0 8px 26px rgba(6,128,73,.42);
+  text-decoration:none;transition:transform var(--toque) var(--ease);
+}
+.zap-flut:hover{transform:scale(1.07)}
+.zap-flut svg{width:29px;height:29px;fill:#fff}
+/* No mobile o botão sobe só depois do simulador — nunca cobre o formulário,
+   que é exatamente o erro que a EletroBidu comete. */
+@media(max-width:940px){.zap-flut{opacity:0;pointer-events:none;transition:opacity .3s,transform .16s}.zap-flut.ver{opacity:1;pointer-events:auto}}
+</style>
+</head>
+<body>
+
+<!-- ================= TOPO ================= -->
+<header>
+  <div class="wrap topo">
+    <a href="#" class="logo" aria-label="Solar Fácil — início">
+      <!-- Salve o logo em assets/logo.png (ou logo.svg) e ele aparece aqui
+           sozinho. Enquanto o arquivo não existir, a marca em texto assume. -->
+      <img src="assets/logo.png" alt="Solar Fácil" class="logo-img" id="logoImg">
+      <span class="logo-fallback" id="logoFallback">
+        <span class="logo-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--dourado)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 2L3 14h8l-1 8 10-12h-8l1-8z"/>
+          </svg>
+        </span>
+        <span class="logo-txt">Solar Fácil<small>ENERGIA SOLAR</small></span>
+      </span>
+    </a>
+    <nav class="topo-nav">
+      <a href="#sobre">Quem somos</a>
+      <a href="#difs">Por que nós</a>
+      <a href="#verdade">A conta real</a>
+      <a href="#bateria">Bateria</a>
+      <a href="#passos">Como funciona</a>
+      <a href="#faq">Dúvidas</a>
+    </nav>
+    <a href="#simulador" class="btn btn-azul topo-cta" id="topoCta">Calcular economia</a>
+  </div>
+</header>
+
+<!-- ================= HERO + SIMULADOR ================= -->
+<div class="hero">
+  <div class="wrap hero-grid">
+
+    <div class="hero-txt">
+      <span class="olho claro">Atendemos todo o Brasil</span>
+      <h1>Quanto a energia solar economiza <em>na sua conta</em>?</h1>
+      <p class="hero-sub">
+        Descubra o número real em 30 segundos — <b>sem cadastro e sem falar com vendedor</b>.
+        A gente calcula na tela com <b>o sol e a tarifa do seu estado</b>, já descontando o Fio B
+        e a taxa mínima que ninguém te conta.
+      </p>
+
+      <div class="selos">
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Cálculo na tela, sem pedir telefone
+        </span>
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Conta honesta, com Fio B incluso
+        </span>
+        <span class="selo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+          Solar e bateria de lítio
+        </span>
+      </div>
+
+      <div class="provinha">
+        <span>Projeto, homologação, instalação e pós-venda — <strong>em qualquer estado do Brasil</strong>.</span>
+      </div>
+    </div>
+
+    <div class="hero-form" id="simulador">
+      <div class="sim">
+
+        <!-- ---- PASSO 1: entrada ---- -->
+        <div id="passo1">
+          <div class="sim-topo">
+            <span class="live"><span class="live-dot" aria-hidden="true"></span>CÁLCULO AO VIVO</span>
+            <h2>Simule sua economia real</h2>
+            <p>Dois campos. Resultado na hora, aqui mesmo na tela.</p>
+            <p class="sim-fiob">Fio B: 60% em 2026 → 75% em 1º/01/2027 (Lei 14.300). Quem instala antes aproveita mais anos com a fatia menor.</p>
+          </div>
+          <div class="sim-corpo">
+
+            <div class="dupla">
+              <div class="campo">
+                <label for="tipo">Onde vai instalar?</label>
+                <select class="controle" id="tipo">
+                  <option value="residencia">Residência</option>
+                  <option value="condominio-casa">Casa em condomínio</option>
+                  <option value="comercio">Comércio</option>
+                  <option value="rural">Sítio / Agronegócio</option>
+                  <option value="industria">Indústria</option>
+                  <option value="condominio-area">Condomínio (área comum)</option>
+                </select>
+              </div>
+
+              <div class="campo">
+                <label for="uf">Em qual estado?</label>
+                <select class="controle" id="uf"></select>
+              </div>
+            </div>
+
+            <div class="campo">
+              <label for="conta">
+                Quanto vem na sua conta de luz por mês?
+                <span class="dica">— pode ser a média dos últimos meses</span>
+              </label>
+              <div class="moeda">
+                <span>R$</span>
+                <input class="controle" id="conta" type="text" inputmode="numeric" placeholder="450" autocomplete="off" aria-describedby="erroConta">
+              </div>
+              <div class="erro" id="erroConta">Digite um valor a partir de R$ 100.</div>
+            </div>
+
+            <div class="campo">
+              <label>Tipo de ligação <span class="dica">— está escrito na sua conta</span></label>
+              <div class="chips" role="group" aria-label="Tipo de ligação">
+                <button type="button" class="chip on" data-lig="mono">Monofásica</button>
+                <button type="button" class="chip" data-lig="bi">Bifásica</button>
+                <button type="button" class="chip" data-lig="tri">Trifásica</button>
+              </div>
+            </div>
+
+            <button class="btn btn-ouro btn-bloco" id="btnCalc" type="button">
+              Ver minha economia real
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" style="width:17px;height:17px"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+
+            <p class="mini">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+              Nada de cadastro. Você vê o resultado antes de decidir se quer falar com a gente.
+            </p>
+          </div>
+        </div>
+
+        <!-- ---- PASSO 2: resultado ---- -->
+        <div id="passo2" class="resultado">
+          <div class="res-hero">
+            <div class="rot">Sua economia estimada</div>
+            <div class="num" id="rEconomia">R$ 0</div>
+            <div class="sub" id="rPct">por mês — 0% da sua conta</div>
+          </div>
+
+          <p class="res-reframe">
+            É o número <b>real</b>, já com o Fio B e a taxa mínima descontados. Costuma ser menor
+            que os "95%" que prometem por aí — e é este que vai aparecer na sua fatura, sem surpresa depois.
+          </p>
+
+          <div class="res-linhas">
+            <div class="res-linha">
+              <span>Sua conta hoje</span>
+              <strong id="rHoje">R$ 0</strong>
+            </div>
+            <div class="res-linha destaque">
+              <span>Sua conta com solar</span>
+              <strong id="rDepois">R$ 0</strong>
+            </div>
+            <div class="res-linha">
+              <span>Sistema indicado</span>
+              <strong id="rSistema">0 kWp</strong>
+            </div>
+            <div class="res-linha">
+              <span>Investimento estimado</span>
+              <strong id="rInvest">R$ 0</strong>
+            </div>
+            <div class="res-linha res-nota">
+              <span>ou financiado — a parcela costuma ficar perto do que você já paga de luz hoje.</span>
+            </div>
+            <div class="res-linha">
+              <span>Payback (se paga em)</span>
+              <strong id="rPayback">0 anos</strong>
+            </div>
+            <div class="res-linha destaque">
+              <span>Economia em 25 anos</span>
+              <strong id="r25">R$ 0</strong>
+            </div>
+          </div>
+
+          <div class="res-fin">
+            <div class="res-fin-tit">Não precisa ter o valor à vista.</div>
+            <div class="res-fin-nums">
+              <div class="fin-col">
+                <span>Sua conta hoje</span>
+                <strong id="fConta">R$ 0</strong>
+              </div>
+              <span class="fin-seta" aria-hidden="true">→</span>
+              <div class="fin-col fin-destaque">
+                <span>Parcela estimada</span>
+                <strong id="fParcela">R$ 0</strong>
+                <em id="fPrazo">em 60x</em>
+              </div>
+              <span class="fin-seta" aria-hidden="true">→</span>
+              <div class="fin-col">
+                <span>Quando quitar</span>
+                <strong id="fDepois">R$ 0</strong>
+                <em>só a conta menor</em>
+              </div>
+            </div>
+            <p class="res-fin-nota" id="fNota"></p>
+          </div>
+
+          <div class="res-marca">
+            <img src="assets/logo-emblema.png" alt="" aria-hidden="true">
+            <span>Solar Fácil · solarfacill.com.br</span>
+          </div>
+
+          <div class="transp">
+            <b>Como chegamos nesse número:</b> para <b><span id="tEstado"></span></b> usamos
+            <span id="tTarifa"></span> de tarifa média e <span id="tHsp"></span> de irradiação solar,
+            e já descontamos <b>a taxa mínima da distribuidora</b> (<span id="tDisp"></span>) e
+            <b>o Fio B de <span id="tFioB"></span></b>, que sobe todo ano até 2029 pela Lei 14.300.
+            É estimativa — o número final sai depois de ver sua conta e seu telhado.
+          </div>
+
+          <p class="res-urg" id="resUrg"></p>
+
+          <div class="res-cta">
+            <h3>Esse é o seu número de 2026. Quer o exato?</h3>
+            <p>Manda a foto da sua conta no WhatsApp. De graça e sem compromisso.</p>
+            <a href="https://wa.me/5515981135188?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Solar%20F%C3%A1cil%20e%20quero%20simular%20minha%20economia.%20Vou%20mandar%20a%20foto%20da%20minha%20conta%20de%20luz." class="btn btn-zap btn-bloco" id="btnZap">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35M12 2a10 10 0 00-8.6 15.07L2 22l5.05-1.32A10 10 0 1012 2z"/></svg>
+              Enviar minha conta e receber o projeto real
+            </a>
+            <div class="passos-zap">
+              <span>Você manda a foto</span>
+              <span>em até 1 dia útil devolvemos o projeto real, item por item</span>
+              <span>você decide com calma, sem ninguém ligar pra pressionar</span>
+            </div>
+            <p class="zap-nota">Do outro lado é quem instala, não um call center. Se você sumir, a gente não fica te perseguindo.</p>
+            <a href="#verdade" class="res-link">Por que esse número muda todo ano? Entenda o Fio B →</a>
+            <button class="voltar" id="btnVoltar" type="button">← Refazer a simulação</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="sentinela" aria-hidden="true"></div>
+
+<!-- ================= CTA WHATSAPP ================= -->
+<section class="sec-zap">
+  <div class="wrap">
+    <div class="sobre-cta">
+      <div>
+        <h3>Prefere ir direto ao ponto?</h3>
+        <p>Manda a foto da sua conta de luz no WhatsApp. Em até 1 dia útil devolvemos o projeto real, com o orçamento detalhado — de graça e sem compromisso.</p>
+      </div>
+      <a href="https://wa.me/5515981135188?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Solar%20F%C3%A1cil%20e%20quero%20simular%20minha%20economia.%20Vou%20mandar%20a%20foto%20da%20minha%20conta%20de%20luz." class="btn btn-zap" id="btnZapSobre">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35M12 2a10 10 0 00-8.6 15.07L2 22l5.05-1.32A10 10 0 1012 2z"/></svg>
+        Falar no WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOBRE NÓS / PROPÓSITO ================= -->
+<section id="sobre">
+  <div class="wrap">
+    <div class="cabeca">
+      <span class="olho">Quem somos</span>
+      <h2>Nosso propósito cabe em duas buscas.<br><span class="dourado">Nenhuma delas termina na venda.</span></h2>
+    </div>
+
+    <div class="sobre-grid">
+
+      <div class="sobre-texto">
+        <p class="destaque">
+          A energia solar no Brasil virou um mercado de promessa. "Até 95%", "conta zero",
+          "manutenção zero". São frases boas de anúncio e ruins de contrato — e o cliente
+          descobre isso depois, quando a primeira conta chega, ou pior: quando precisa de
+          suporte e ninguém atende.
+        </p>
+
+        <p>
+          A Solar Fácil existe por dois motivos, e nós os escrevemos aqui porque queremos ser
+          cobrados por eles.
+        </p>
+
+        <div class="pilares">
+          <div class="pilar">
+            <span class="pilar-n">01</span>
+            <div>
+              <h3>Buscar o melhor pós-venda e suporte do mercado</h3>
+              <p>
+                Vender energia solar é fácil. O difícil aparece nos vinte e cinco anos
+                seguintes: a geração que caiu, o inversor que travou, a dúvida na conta, a
+                troca de titularidade. É aí que a maior parte do mercado some — e é aí que a
+                gente quer ser encontrada. <b>Quem instalou é quem atende.</b> Não existe
+                "fale com a equipe responsável": a equipe responsável somos nós, e continua
+                sendo depois que o dinheiro entrou.
+              </p>
+            </div>
+          </div>
+
+          <div class="pilar">
+            <span class="pilar-n">02</span>
+            <div>
+              <h3>Buscar o preço mais justo do mercado</h3>
+              <p>
+                Justo não é o mais barato — e a gente faz questão dessa diferença. O mais
+                barato do Brasil existe: é o que usa estrutura vagabunda, corta a visita
+                técnica, some na homologação e devolve o problema pra você em três anos.
+                <b>Justo é o preço certo pelo serviço inteiro, com tudo dentro e nada
+                escondido:</b> equipamento, estrutura, mão de obra, projeto, homologação, ART e
+                pós-venda. Tudo item por item, dito antes de você assinar. E se algo mudar no caminho — um telhado
+                que pede reforço, uma peça que chegou diferente — <b>você fica sabendo antes de a gente fazer,
+                e com o motivo</b>. Surpresa é na fatura dos outros.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          É por isso que a primeira coisa que você encontra no nosso site não é um formulário —
+          é uma conta. <b>O simulador aqui de cima calcula sua economia na tela, antes de pedir
+          seu telefone, e já desconta tudo que os outros escondem.</b> Às vezes o número é
+          menor do que você esperava. Preferimos que ele apareça agora, de graça, do que daqui
+          a três meses, com o sistema já no seu telhado.
+        </p>
+
+        <p class="assinatura-linha">
+          <b>No fim, as duas buscas são a mesma:</b> fazer a energia solar deixar de ser uma
+          aposta e voltar a ser o que ela sempre foi na matemática — uma conta que fecha, com
+          alguém do outro lado da linha quando você precisar.
+        </p>
+      </div>
+
+      <aside class="sobre-lado">
+
+        <div class="manifesto">
+          <h3>Três coisas que a gente não faz</h3>
+
+          <div class="mani-item">
+            <span class="mani-x">✕</span>
+            <div>
+              <strong>Não prometemos número redondo</strong>
+              <span>Nenhum "até 95%". Falamos o seu número, com as suas condições, mesmo quando ele decepciona.</span>
+            </div>
+          </div>
+
+          <div class="mani-item">
+            <span class="mani-x">✕</span>
+            <div>
+              <strong>Não damos preço no escuro</strong>
+              <span>Ninguém orça um telhado que não viu. A visita técnica vem antes do número — e é ela que faz o preço ser justo em vez de chutado.</span>
+            </div>
+          </div>
+
+          <div class="mani-item">
+            <span class="mani-x">✕</span>
+            <div>
+              <strong>Não terceirizamos o seu telhado</strong>
+              <span>Quem sobe lá é do nosso time. É o que nos deixa responder pelo pós-venda sem apontar o dedo para outra empresa.</span>
+            </div>
+          </div>
+        </div>
+
+        <blockquote class="citacao">
+          <p id="citacaoTexto">
+            A Solar Fácil foi fundada para ir contra a maior queixa dos clientes: a ausência
+            de pós-venda e de transparência. Sempre buscamos ser justos e facilitar as condições
+            de compra, para que todos consigam ter independência energética.
+          </p>
+          <footer>
+            <img class="cit-foto" id="citFoto" src="assets/fundadores.jpg" alt="Luciano e Lidiane, fundadores da Solar Fácil">
+            <span>
+              <strong id="citNome">Luciano e Lidiane</strong>
+              <span id="citCargo">Fundadores da Solar Fácil</span>
+            </span>
+          </footer>
+        </blockquote>
+
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAIXA ================= -->
+<div class="faixa">
+  <div class="wrap faixa-grid">
+    <div class="faixa-item"><strong>25 anos</strong><span>de vida útil dos módulos</span></div>
+    <div class="faixa-item"><strong>12 anos</strong><span>de garantia no inversor</span></div>
+    <div class="faixa-item"><strong>1 dia útil</strong><span>para o projeto na sua mão</span></div>
+    <div class="faixa-item"><strong>Time próprio</strong><span>da visita ao pós-venda</span></div>
+  </div>
+</div>
+
+<!-- ================= DIFERENCIAIS ================= -->
+<section class="sec-off" id="difs">
+  <div class="wrap">
+    <div class="cabeca">
+      <span class="olho">Por que a Solar Fácil</span>
+      <h2>Cinco coisas que a gente faz diferente</h2>
+      <p class="lead">Não somos a maior do Brasil. Somos a que te trata como adulto.</p>
+    </div>
+    <div class="difs">
+
+      <div class="dif">
+        <div class="dif-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3 9 4-18 3 9h6"/></svg>
+        </div>
+        <h3>Número antes do telefone</h3>
+        <p>A concorrência chama de "simulador" um formulário que só coleta seu contato e devolve uma ligação de vendedor. Aqui a conta acontece na tela. Você só fala com a gente se quiser.</p>
+      </div>
+
+      <div class="dif">
+        <div class="dif-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>
+        </div>
+        <h3>Time próprio, não terceirizado</h3>
+        <p>Quem visita seu telhado, quem instala e quem atende no pós-venda são as mesmas pessoas. Ninguém some depois da assinatura porque "a equipe era de outra empresa".</p>
+      </div>
+
+      <div class="dif">
+        <div class="dif-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Projeto em 1 dia útil</h3>
+        <p>Você manda a foto da conta, a gente devolve o dimensionamento e o preço em até um dia útil. Sem visita obrigatória pra "poder passar o valor".</p>
+      </div>
+
+      <div class="dif">
+        <div class="dif-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        <h3>Monitoramento que a gente olha</h3>
+        <p>Todo sistema sai com monitoramento. A diferença é que quem acompanha é a nossa equipe — se sua geração cair, você recebe nossa mensagem antes de perceber na conta.</p>
+      </div>
+
+      <div class="dif">
+        <div class="dif-ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8"/></svg>
+        </div>
+        <h3>Contrato em português</h3>
+        <p>Prazo de instalação, prazo de homologação, o que acontece se atrasar e o que a garantia cobre — tudo escrito em frase que se entende, na primeira leitura.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= A CONTA REAL ================= -->
+<section id="verdade">
+  <div class="wrap">
+    <div class="cabeca meio">
+      <span class="olho">A conta que ninguém mostra</span>
+      <h2>Por que a gente <span class="dourado">não</span> promete 95% de economia</h2>
+      <p class="lead">Porque desde a Lei 14.300 esse número, na prática, quase nunca acontece. Preferimos te contar agora do que na hora da instalação.</p>
+    </div>
+
+    <div class="verdade">
+      <div class="card-v card-eles">
+        <span class="tag">O que você vê por aí</span>
+        <h3>"Reduza até 95% da sua conta!"</h3>
+        <p>
+          A palavra que sustenta a promessa é <b>"até"</b>. Ela funciona no anúncio e some no orçamento.
+          O que costuma ficar de fora: a <b>taxa mínima</b> que a distribuidora cobra mesmo se você gerar
+          toda a energia do mundo, e o <b>Fio B</b>, o pedágio que você paga pela energia que joga na rede —
+          e que sobe todo ano até 2029.
+        </p>
+      </div>
+      <div class="card-v card-nos">
+        <span class="tag">O que a Solar Fácil faz</span>
+        <h3>Mostra sua economia com as duas contas já descontadas</h3>
+        <p>
+          O simulador aqui de cima já tira a taxa mínima e já aplica o Fio B do ano corrente.
+          O número que aparece é o que sobra <b>de verdade</b> no seu bolso. Costuma ser menor que 95% —
+          e ainda assim costuma se pagar em poucos anos. <b>Economia real vende melhor que promessa redonda.</b>
+        </p>
+      </div>
+    </div>
+
+    <div class="fiob">
+      <h3>O Fio B sobe todo ano — e isso muda sua conta</h3>
+      <p>
+        A Lei 14.300/2022 acabou com a compensação integral. Quem instala hoje paga uma fatia do Fio B sobre a
+        energia injetada na rede, e essa fatia cresce até travar em 2029. Entender isso muda uma decisão importante:
+        <b>quanto antes você instala, mais anos você aproveita com a fatia menor.</b>
+      </p>
+      <div class="escada" id="escada"></div>
+
+      <div class="escada-cta">
+        <div>
+          <h3>O ano de 60% não volta.</h3>
+          <p>Cada ano que você espera é um ano de economia menor — e uma conta de luz cheia que continua subindo pela ANEEL. Instalar em 2027 é começar já no degrau de 75%.</p>
+        </div>
+        <a href="#simulador" class="btn btn-ouro">Calcular com o Fio B de 2026 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BATERIA DE LÍTIO ================= -->
+<section class="sec-off" id="bateria">
+  <div class="wrap">
+    <div class="cabeca">
+      <span class="olho">Bateria de lítio</span>
+      <h2>O Fio B cobra pela energia que você entrega.<br><span class="dourado">A bateria guarda a sua.</span></h2>
+      <p class="lead">
+        Se você leu a seção acima, já entendeu o problema. A bateria é a resposta dele —
+        e ela fica mais valiosa a cada ano que o Fio B sobe.
+      </p>
+    </div>
+
+    <div class="bat-fluxo">
+      <div class="fluxo fluxo-sem">
+        <span class="fluxo-tag">Sem bateria</span>
+        <div class="fluxo-passos">
+          <div class="fp"><span class="fp-ico">☀</span><div><strong>O sol gera de dia</strong><span>quando quase ninguém está em casa</span></div></div>
+          <div class="fp"><span class="fp-ico">🏠</span><div><strong>Você usa ~30%</strong><span>na hora, direto do telhado</span></div></div>
+          <div class="fp fp-alerta"><span class="fp-ico">⚡</span><div><strong>Os outros ~70% vão pra rede</strong><span>e é sobre eles que incide o Fio B</span></div></div>
+          <div class="fp"><span class="fp-ico">🌙</span><div><strong>À noite você compra de volta</strong><span>a sua própria energia, com o pedágio já pago</span></div></div>
+        </div>
+      </div>
+
+      <div class="fluxo fluxo-com">
+        <span class="fluxo-tag">Com bateria de lítio</span>
+        <div class="fluxo-passos">
+          <div class="fp"><span class="fp-ico">☀</span><div><strong>O sol gera de dia</strong><span>igual ao de cima</span></div></div>
+          <div class="fp"><span class="fp-ico">🏠</span><div><strong>Você usa o que precisa</strong><span>na hora</span></div></div>
+          <div class="fp fp-bom"><span class="fp-ico">🔋</span><div><strong>A sobra vai pra bateria</strong><span>não pra rede — então não paga Fio B</span></div></div>
+          <div class="fp fp-bom"><span class="fp-ico">🌙</span><div><strong>À noite você usa a sua</strong><span>sem comprar de volta, sem pedágio</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bat-extra">
+      <div class="bx">
+        <h3>E a luz não cai</h3>
+        <p>
+          Um sistema comum <b>desliga junto com a rua</b> — é norma de segurança, pra não eletrocutar
+          quem conserta o poste. Com bateria, sua casa continua de pé no apagão: geladeira, internet,
+          luz, bomba d'água. Para quem trabalha em casa ou mora onde falta energia, esse costuma ser
+          o motivo real da compra — a economia vira bônus.
+        </p>
+      </div>
+      <div class="bx">
+        <h3>Por que lítio, e não chumbo</h3>
+        <p>
+          As baterias de lítio (LiFePO₄) aguentam <b>milhares de ciclos</b> contra algumas centenas das
+          de chumbo, podem ser descarregadas quase por completo sem estragar, não pedem manutenção,
+          não soltam gás e ocupam menos espaço. Custam mais na compra e menos por ano de uso —
+          que é a conta que importa.
+        </p>
+      </div>
+    </div>
+
+    <div class="bat-honesto">
+      <div class="bh bh-sim">
+        <h3><span>✓</span> Quando a bateria vale a pena</h3>
+        <ul>
+          <li>Você consome mais à noite do que de dia</li>
+          <li>Falta luz com frequência onde você mora</li>
+          <li>Você trabalha de casa e não pode parar</li>
+          <li>Tem equipamento que não pode desligar — bomba, freezer, servidor</li>
+          <li>Você pretende ficar nesse imóvel por muitos anos</li>
+        </ul>
+      </div>
+      <div class="bh bh-nao">
+        <h3><span>✕</span> Quando a gente diz pra não comprar</h3>
+        <ul>
+          <li>Seu consumo é quase todo de dia — aí você já usa direto do telhado</li>
+          <li>A rede na sua rua é estável e você não se importa com apagão curto</li>
+          <li>O orçamento está apertado — melhor fazer o solar bem feito primeiro</li>
+          <li>Você quer só "economizar mais" — nesse caso a conta às vezes não fecha</li>
+        </ul>
+        <p class="bh-nota">
+          Bateria não é upgrade automático. <b>Ela resolve problemas específicos</b>, e a gente prefere
+          falar isso antes do que vender a mais.
+        </p>
+      </div>
+    </div>
+
+    <div class="sobre-cta" style="margin-top:32px">
+      <div>
+        <h3>Quer saber se faz sentido no seu caso?</h3>
+        <p>Manda sua conta e conta pra gente como é sua rotina — se você fica em casa de dia, se falta luz aí. A gente calcula com e sem bateria e mostra as duas contas.</p>
+      </div>
+      <a href="https://wa.me/5515981135188?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Solar%20F%C3%A1cil%20e%20quero%20simular%20minha%20economia.%20Vou%20mandar%20a%20foto%20da%20minha%20conta%20de%20luz." class="btn btn-zap" id="btnZapBateria">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35M12 2a10 10 0 00-8.6 15.07L2 22l5.05-1.32A10 10 0 1012 2z"/></svg>
+        Falar sobre bateria
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMO FUNCIONA ================= -->
+<section class="sec-navy" id="passos">
+  <div class="wrap">
+    <div class="cabeca">
+      <span class="olho claro">Como funciona</span>
+      <h2>Da foto da conta até a energia entrando</h2>
+      <p class="lead">Cinco etapas. Você acompanha todas pelo WhatsApp.</p>
+    </div>
+    <div class="passos">
+      <div class="passo">
+        <h3>Você manda a conta</h3>
+        <p>Foto da conta de luz no WhatsApp. Só isso. Leva 10 segundos.</p>
+      </div>
+      <div class="passo">
+        <h3>Projeto e preço</h3>
+        <p>Em 1 dia útil você recebe o dimensionamento e o orçamento, item por item.</p>
+      </div>
+      <div class="passo">
+        <h3>Visita técnica</h3>
+        <p>A gente sobe no telhado, confere estrutura e padrão de entrada, e confirma o projeto.</p>
+      </div>
+      <div class="passo">
+        <h3>Instalação</h3>
+        <p>Time próprio. Residência padrão fica pronta em 1 a 3 dias, com a casa limpa no fim.</p>
+      </div>
+      <div class="passo">
+        <h3>Homologação</h3>
+        <p>Cuidamos do processo junto à distribuidora até o medidor novo entrar e a economia começar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec-off" id="faq">
+  <div class="wrap">
+    <div class="cabeca meio">
+      <span class="olho">Dúvidas honestas</span>
+      <h2>O que todo mundo pergunta antes de fechar</h2>
+    </div>
+
+    <div class="faq">
+      <details class="q" open>
+        <summary>Minha conta vai mesmo pra zero?</summary>
+        <div class="a">Não, e desconfie de quem disser que sim. A distribuidora cobra uma <b>taxa mínima de disponibilidade</b> todo mês — 30 kWh na ligação monofásica, 50 kWh na bifásica e 100 kWh na trifásica — mesmo que seu sistema gere energia de sobra. Somando o Fio B, a conta de um cliente residencial nosso costuma cair entre 70% e 88%, não 95%. O simulador aqui de cima já mostra a sua faixa.</div>
+      </details>
+
+      <details class="q">
+        <summary>O que é esse tal de Fio B?</summary>
+        <div class="a">É um pedágio pelo uso da rede. Quando seu sistema gera mais do que você está consumindo naquele instante, a sobra vai pra rede da distribuidora e volta como crédito — e você paga uma fatia do Fio B sobre essa energia. Antes da Lei 14.300/2022 era de graça. Hoje é escalonado: começou em 15% em 2023 e sobe até 100% em 2029. Quem instala agora aproveita mais anos com a fatia menor.</div>
+      </details>
+
+      <details class="q">
+        <summary>E se eu vender a casa?</summary>
+        <div class="a">O sistema é um bem imóvel e vai junto com a casa, o que <b>aumenta o valor do imóvel</b> — vários estudos de mercado imobiliário apontam valorização, e a casa costuma sair mais rápido. A titularidade da conta de energia passa pro novo dono num processo simples junto à distribuidora, e a gente ajuda nisso mesmo depois da venda.</div>
+      </details>
+
+      <details class="q">
+        <summary>Preciso de bateria? E se faltar luz?</summary>
+        <div class="a">Precisar, não precisa — mas aqui vem a parte que surpreende quase todo mundo: no sistema comum (on-grid), <b>se faltar luz na rua, o seu sistema desliga junto</b>. Mesmo com sol a pino. É exigência de segurança, pra sua energia não eletrocutar o técnico que está consertando o poste. Se você quer energia no apagão, ou quer guardar a sua geração em vez de entregá-la à rede e pagar Fio B por ela, aí entra a <b>bateria de lítio</b> — e nós trabalhamos com isso. Ela não é upgrade automático: resolve problemas específicos e custa dinheiro. <a href="#bateria" style="color:var(--azul-texto);font-weight:700">Explicamos em detalhe aqui</a>, inclusive quando a gente diz pra você não comprar.</div>
+      </details>
+
+      <details class="q">
+        <summary>Meu telhado aguenta? E se der goteira?</summary>
+        <div class="a">Um sistema residencial pesa cerca de 12 a 15 kg por metro quadrado, bem abaixo do que a maioria dos telhados suporta. Ainda assim, a visita técnica existe justamente pra confirmar a estrutura antes de qualquer coisa — e se o seu telhado não estiver em condição, a gente <b>fala isso na cara</b> em vez de instalar e torcer. A fixação é feita com ganchos apropriados, sem furar telha, e infiltração causada pela nossa instalação é responsabilidade nossa, escrito em contrato.</div>
+      </details>
+
+      <details class="q">
+        <summary>Dá pra financiar?</summary>
+        <div class="a">Dá, e é assim que a maior parte dos nossos clientes fecha. Existem linhas específicas para energia solar em que <b>a parcela costuma ficar próxima do valor que você já paga de conta de luz</b> — ou seja, você troca uma despesa permanente por uma parcela que um dia acaba, e o sistema continua gerando por 25 anos. Na proposta a gente simula as opções junto com o valor à vista, sem empurrar nenhuma.</div>
+      </details>
+
+      <details class="q">
+        <summary>Quanto tempo até começar a economizar?</summary>
+        <div class="a">A instalação de uma residência padrão leva de 1 a 3 dias. Depois vem a homologação na distribuidora, que é a etapa que não depende de nós — toda distribuidora tem prazo regulatório da ANEEL para vistoriar e trocar o medidor, e na prática costuma levar algumas semanas, variando de estado para estado. A economia começa a valer quando o medidor bidirecional entra. A gente acompanha esse processo e te atualiza sem você precisar perguntar.</div>
+      </details>
+
+      <details class="q">
+        <summary>E a manutenção?</summary>
+        <div class="a">É baixa, mas não é zero — quem diz "manutenção zero" está vendendo. Os módulos não têm peça móvel e a chuva já dá conta da maior parte da limpeza, mas em região com poeira ou muita árvore vale uma limpeza por ano. O inversor é o componente que um dia pede atenção: ele tem garantia de fábrica e vida útil menor que a dos módulos, então em algum momento dos 25 anos provavelmente será trocado. A gente já te conta isso na proposta.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="sec-off" style="padding-top:0">
+  <div class="wrap">
+    <div class="fim">
+      <h2>Sua conta de luz não vai baixar sozinha</h2>
+      <p>Manda a foto da sua conta no WhatsApp. Em 1 dia útil você recebe o projeto e o orçamento. Se não fizer sentido pra você, a gente mesma fala.</p>
+      <p class="fim-urg">Esperar tem preço: a tarifa sobe todo ano pela ANEEL e o Fio B vai de 60% (2026) pra 75% em 2027. Cada mês parado é uma conta cheia que não volta.</p>
+      <div class="fim-btns">
+        <a href="https://wa.me/5515981135188?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Solar%20F%C3%A1cil%20e%20quero%20simular%20minha%20economia.%20Vou%20mandar%20a%20foto%20da%20minha%20conta%20de%20luz." class="btn btn-zap" id="btnZap2">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35M12 2a10 10 0 00-8.6 15.07L2 22l5.05-1.32A10 10 0 1012 2z"/></svg>
+          Mandar minha conta agora
+        </a>
+        <a href="#simulador" class="btn btn-azul">Simular primeiro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RODAPÉ ================= -->
+<footer>
+  <div class="wrap">
+    <div class="pe">
+      <div>
+        <!-- Mesmo arquivo do cabeçalho. No rodapé cabe maior, então aqui
+             o logo aparece inteiro, sem texto ao lado. -->
+        <img src="assets/logo.png" alt="Solar Fácil" class="logo-pe" id="logoPe">
+        <span class="logo-txt" id="logoPeTxt">Solar Fácil<small>ENERGIA SOLAR</small></span>
+        <p>Energia solar e baterias de lítio, com instalação própria em todo o Brasil. Projeto, homologação, instalação e pós-venda com time nosso — sem limite de cidade.</p>
+      </div>
+      <div>
+        <h4>Navegue</h4>
+        <a href="#simulador">Simular economia</a>
+        <a href="#verdade">A conta real</a>
+        <a href="#bateria">Bateria de lítio</a>
+        <a href="#difs">Por que nós</a>
+        <a href="#passos">Como funciona</a>
+        <a href="#faq">Dúvidas</a>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <a href="https://wa.me/5515981135188?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Solar%20F%C3%A1cil%20e%20quero%20simular%20minha%20economia.%20Vou%20mandar%20a%20foto%20da%20minha%20conta%20de%20luz." id="peZap">WhatsApp: +55 15 98113-5188</a>
+        <a href="mailto:contato@solarfacill.com.br">contato@solarfacill.com.br</a>
+      </div>
+    </div>
+    <div class="pe-fim">
+      <p><b style="color:var(--tinta)">Sobre os números desta página:</b> a simulação é uma estimativa calculada a partir da tarifa média e da irradiação solar do estado selecionado, e do escalonamento do Fio B previsto na Lei 14.300/2022. Tarifas variam por distribuidora e são reajustadas anualmente pela ANEEL; a irradiação varia dentro do próprio estado. O valor final depende da sua conta, do seu telhado e da vistoria técnica. Nenhum resultado desta página é proposta comercial ou garantia de economia.</p>
+      <p style="margin-top:12px">© 2026 Solar Fácil · Atendemos todo o território nacional · Todos os direitos reservados.<br><span id="cnpjSlot" style="opacity:.8"></span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- barra fixa de CTA no mobile: some no topo, entra depois do simulador -->
+<div class="barra-cta" id="barraCta">
+  <span class="barra-eco" id="barraEco"></span>
+  <a href="#simulador" class="btn btn-ouro" id="barraBtn">Calcular minha economia</a>
+</div>
+
+<a href="https://wa.me/5515981135188?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Solar%20F%C3%A1cil%20e%20quero%20simular%20minha%20economia.%20Vou%20mandar%20a%20foto%20da%20minha%20conta%20de%20luz." class="zap-flut" id="zapFlut" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.01-1.04 2.47s1.06 2.86 1.21 3.06c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.69.25-1.28.17-1.41-.07-.13-.27-.2-.57-.35M12 2a10 10 0 00-8.6 15.07L2 22l5.05-1.32A10 10 0 1012 2z"/></svg>
+</a>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   CONFIG — é aqui que você mexe. Tudo que muda de verdade
+   está neste bloco. Não precisa tocar em mais nada.
+   ============================================================ */
+var CFG = {
+  // Seu WhatsApp com código do país e DDD, só números:
+  whatsapp: "5515981135188",   // +55 15 98113-5188
+
+  // ---- Premissas do cálculo (ajuste com seus números reais) ----
+  fioB:        0.30,  // R$/kWh — componente TUSD Fio B com impostos
+  perf:        0.78,  // performance ratio do sistema (perdas reais)
+  precoKwp:    4200,  // R$/kWp instalado — SEU preço médio
+  autoconsumo: 0.30,  // fatia da geração consumida na hora (não paga Fio B)
+  degradacao:  0.005, // perda de eficiência dos módulos por ano
+  inflacaoE:   0.05,  // reajuste anual estimado da tarifa
+
+  // ---- Financiamento (estimativa — ajuste com a taxa do SEU banco parceiro) ----
+  finJuros:    0.0119, // juros ao mês (CET). Fintechs ~1,1-1,5%; cooperativas ~0,8%.
+  finMeses:    60,     // prazo padrão em meses
+  ufPadrao:    "SP",
+
+  /* ---- Estados: irradiação (hsp) e tarifa média (R$/kWh, com impostos) ----
+     hsp    = horas de sol pleno/dia, média anual — ordem de grandeza do
+              Atlas Brasileiro de Energia Solar / CRESESB.
+     tarifa = tarifa residencial B1 cheia aproximada da distribuidora principal.
+
+     ⚠️ ESTIMATIVAS. Antes de subir pro ar, confira pelo menos os estados onde
+     você mais vende e ajuste. A tarifa muda a cada reajuste anual da ANEEL. */
+  uf: {
+    AC:{n:"Acre",              hsp:4.6, tarifa:0.95},
+    AL:{n:"Alagoas",           hsp:5.4, tarifa:0.98},
+    AP:{n:"Amapá",             hsp:4.8, tarifa:0.85},
+    AM:{n:"Amazonas",          hsp:4.4, tarifa:0.92},
+    BA:{n:"Bahia",             hsp:5.5, tarifa:1.02},
+    CE:{n:"Ceará",             hsp:5.7, tarifa:0.95},
+    DF:{n:"Distrito Federal",  hsp:5.3, tarifa:0.88},
+    ES:{n:"Espírito Santo",    hsp:5.0, tarifa:0.97},
+    GO:{n:"Goiás",             hsp:5.3, tarifa:1.00},
+    MA:{n:"Maranhão",          hsp:5.4, tarifa:0.92},
+    MT:{n:"Mato Grosso",       hsp:5.2, tarifa:1.05},
+    MS:{n:"Mato Grosso do Sul",hsp:5.1, tarifa:1.02},
+    MG:{n:"Minas Gerais",      hsp:5.3, tarifa:1.00},
+    PA:{n:"Pará",              hsp:4.8, tarifa:0.98},
+    PB:{n:"Paraíba",           hsp:5.6, tarifa:0.95},
+    PR:{n:"Paraná",            hsp:4.7, tarifa:0.85},
+    PE:{n:"Pernambuco",        hsp:5.5, tarifa:0.97},
+    PI:{n:"Piauí",             hsp:5.6, tarifa:1.05},
+    RJ:{n:"Rio de Janeiro",    hsp:5.0, tarifa:1.08},
+    RN:{n:"Rio Grande do Norte",hsp:5.7,tarifa:0.95},
+    RS:{n:"Rio Grande do Sul", hsp:4.6, tarifa:0.95},
+    RO:{n:"Rondônia",          hsp:4.8, tarifa:0.92},
+    RR:{n:"Roraima",           hsp:4.9, tarifa:0.88},
+    SC:{n:"Santa Catarina",    hsp:4.5, tarifa:0.88},
+    SP:{n:"São Paulo",         hsp:4.9, tarifa:0.95},
+    SE:{n:"Sergipe",           hsp:5.4, tarifa:0.95},
+    TO:{n:"Tocantins",         hsp:5.4, tarifa:1.02}
+  },
+
+  // Custo de disponibilidade em kWh por tipo de ligação (regra ANEEL)
+  disp: { mono: 30, bi: 50, tri: 100 },
+
+  // Escalonamento do Fio B — Lei 14.300/2022
+  escada: { 2023:.15, 2024:.30, 2025:.45, 2026:.60, 2027:.75, 2028:.90, 2029:1.00 },
+  ano: 2026
+};
+
+/* ---------- helpers ---------- */
+var $ = function(id){ return document.getElementById(id); };
+var brl = function(v){
+  return "R$ " + Math.round(v).toLocaleString("pt-BR");
+};
+
+/* ---------- logo, no cabeçalho e no rodapé ----------
+   A classe que ESCONDE está no CSS e a que MOSTRA é aplicada aqui: se o
+   arquivo falhar, a marca em texto de reserva aparece. Nunca sobra buraco.
+
+   Cabeçalho: mostra o LOGO INTEIRO (com as letras) em tamanho natural —
+   por isso o header é mais alto. O texto de reserva ao lado sai.
+   Rodapé: logo grande num quadrado, texto ao lado sai. */
+(function(){
+  function ligar(img, aoCarregar){
+    if (!img) return;
+    img.addEventListener("load", function(){
+      if (!img.naturalWidth) return;
+      img.classList.add("ok");
+      aoCarregar(img.naturalWidth / img.naturalHeight >= 1.9);
+    });
+    img.addEventListener("error", function(){
+      if (img.getAttribute("src").indexOf("logo.png") > -1) img.src = "assets/logo.svg";
+    });
+  }
+
+  var fb = $("logoFallback");
+  ligar($("logoImg"), function(){ fb.classList.add("off"); });   // logo inteiro já tem o nome
+
+  var pe = $("logoPe"), peTxt = $("logoPeTxt");
+  ligar(pe, function(horizontal){
+    if (!horizontal) pe.classList.add("quadrado");
+    peTxt.classList.add("off");
+  });
+})();
+
+/* ---------- popular o seletor de estado ---------- */
+(function(){
+  var sel = $("uf"), html = "";
+  Object.keys(CFG.uf)
+    .sort(function(a,b){ return CFG.uf[a].n.localeCompare(CFG.uf[b].n, "pt-BR"); })
+    .forEach(function(sigla){
+      html += '<option value="' + sigla + '"' + (sigla === CFG.ufPadrao ? ' selected' : '') + '>' +
+              sigla + ' — ' + CFG.uf[sigla].n + '</option>';
+    });
+  sel.innerHTML = html;
+})();
+
+/* ---------- escada do Fio B ---------- */
+(function(){
+  var box = $("escada"), html = "";
+  Object.keys(CFG.escada).forEach(function(ano){
+    var pct = CFG.escada[ano], hoje = (+ano === CFG.ano);
+    html += '<div class="degrau' + (hoje ? ' hoje' : '') + '">' +
+              '<div class="barra"><div class="fill" style="height:' + (pct*100) + '%"></div></div>' +
+              '<div class="pct">' + Math.round(pct*100) + '%</div>' +
+              '<div class="ano">' + (hoje ? ano + ' · você começa aqui' : ano) + '</div>' +
+            '</div>';
+  });
+  box.innerHTML = html;
+})();
+
+/* ---------- máscara de moeda ---------- */
+var inConta = $("conta");
+inConta.addEventListener("input", function(){
+  var v = this.value.replace(/\D/g, "");
+  this.value = v ? (+v).toLocaleString("pt-BR") : "";
+  $("erroConta").classList.remove("ver");
+});
+inConta.addEventListener("keydown", function(e){
+  if (e.key === "Enter") { e.preventDefault(); calcular(); }
+});
+
+/* ---------- chips de ligação ---------- */
+var ligacao = "mono";
+Array.prototype.forEach.call(document.querySelectorAll(".chip"), function(c){
+  c.addEventListener("click", function(){
+    document.querySelectorAll(".chip").forEach(function(x){ x.classList.remove("on"); });
+    this.classList.add("on");
+    ligacao = this.dataset.lig;
+  });
+});
+
+/* ---------- captura de UTM / click ids ----------
+   Os mesmos parâmetros que a concorrência captura — mas aqui eles
+   viajam junto na mensagem do WhatsApp, então o lead chega
+   rastreado mesmo sem CRM montado ainda.                        */
+var qs = new URLSearchParams(location.search);
+function tag(k){ return qs.get(k) || ""; }
+var origem = [tag("utm_source"), tag("utm_campaign"), tag("utm_content")].filter(Boolean).join(" / ");
+var clickId = tag("gclid") || tag("gbraid") || tag("wbraid") || tag("fbclid") || "";
+
+/* ---------- o cálculo ---------- */
+var ultimo = null;
+
+function calcular(){
+  var conta = +inConta.value.replace(/\D/g, "");
+
+  if (!conta || conta < 100) {
+    $("erroConta").classList.add("ver");
+    inConta.focus();
+    return;
+  }
+
+  var tipo = $("tipo").value;
+
+  // 0. O estado manda no cálculo: cada um tem seu sol e sua tarifa.
+  var sigla  = $("uf").value;
+  var estado = CFG.uf[sigla];
+  var tarifa = estado.tarifa;
+  var hsp    = estado.hsp;
+
+  // 1. Consumo mensal em kWh
+  var consumo = conta / tarifa;
+
+  // 2. Taxa mínima que NUNCA some — é o que derruba a promessa de 95%
+  var dispKwh = CFG.disp[ligacao];
+  var custoDisp = dispKwh * tarifa;
+
+  // 3. Dimensionamento do sistema
+  var geracaoPorKwp = hsp * 30 * CFG.perf;          // kWh/mês por kWp
+  var kwp = consumo / geracaoPorKwp;
+  var investimento = kwp * CFG.precoKwp;
+
+  // 4. Fio B sobre a energia injetada na rede (Lei 14.300)
+  var injetada = consumo * (1 - CFG.autoconsumo);
+  var fatia = CFG.escada[CFG.ano] || 1;
+  var custoFioB = injetada * CFG.fioB * fatia;
+
+  // 5. O que sobra
+  var contaDepois = custoDisp + custoFioB;
+  var economia = conta - contaDepois;
+  var pct = (economia / conta) * 100;
+  var payback = investimento / economia;           // em meses
+
+  // 6. Projeção de 25 anos — tarifa sobe, painel degrada
+  var total = 0, ecoAno = economia * 12;
+  for (var a = 0; a < 25; a++) {
+    total += ecoAno * Math.pow(1 + CFG.inflacaoE, a) * Math.pow(1 - CFG.degradacao, a);
+  }
+
+  ultimo = {
+    conta: conta, tipo: tipo, ligacao: ligacao, uf: sigla,
+    kwp: kwp, investimento: investimento,
+    economia: economia, pct: pct, payback: payback
+  };
+
+  // ---- pintar o resultado ----
+  $("rEconomia").textContent = brl(economia);
+  $("rPct").textContent = "por mês — " + Math.round(pct) + "% da sua conta";
+  $("rHoje").textContent    = brl(conta);
+  $("rDepois").textContent  = brl(contaDepois);
+  $("rSistema").textContent = kwp.toFixed(2).replace(".", ",") + " kWp";
+  $("rInvest").textContent  = "≈ " + brl(investimento);
+  $("rPayback").textContent = payback < 12
+      ? Math.round(payback) + " meses"
+      : (payback/12).toFixed(1).replace(".", ",") + " anos";
+  $("r25").textContent      = brl(total);
+
+  // ---- financiamento: a parcela na tela, honesta ----
+  var jm = CFG.finJuros, nm = CFG.finMeses;
+  // Tabela Price (PMT): parcela que amortiza o investimento inteiro
+  var parcela = jm > 0
+      ? investimento * jm / (1 - Math.pow(1 + jm, -nm))
+      : investimento / nm;
+  $("fConta").textContent   = brl(conta);
+  $("fParcela").textContent = brl(parcela);
+  $("fPrazo").textContent   = "em " + nm + "x";
+  $("fDepois").textContent  = brl(contaDepois);
+  // nota verdadeira caso a caso — nunca prometer o que o número não sustenta
+  var relacao = parcela <= conta
+    ? "A parcela sozinha já fica <b>abaixo da conta que você paga hoje</b>"
+    : "A parcela fica <b>perto da conta que você paga hoje</b>";
+  $("fNota").innerHTML = relacao + " — e vira um bem seu, não aluguel de energia. " +
+    "Quando o financiamento acaba, sobra só a conta menor, pra sempre. " +
+    "É estimativa (juros de " + (jm*100).toFixed(2).replace(".", ",") + "% a.m.); a parcela real depende da aprovação de crédito.";
+
+  // ---- transparência das premissas ----
+  $("tTarifa").textContent = "R$ " + tarifa.toFixed(2).replace(".", ",") + "/kWh";
+  $("tHsp").textContent    = hsp.toFixed(1).replace(".", ",") + " horas de sol pleno";
+  $("tEstado").textContent = estado.n;
+  $("tDisp").textContent   = dispKwh + " kWh, ou " + brl(custoDisp) + " por mês";
+  $("tFioB").textContent   = Math.round(fatia*100) + "% em " + CFG.ano;
+
+  // ---- mensagem do WhatsApp já preenchida com o resultado ----
+  var msg = "Olá! Simulei no site da Solar Fácil e quero o projeto real.\n\n" +
+            "• Imóvel: " + $("tipo").options[$("tipo").selectedIndex].text + "\n" +
+            "• Estado: " + estado.n + " (" + sigla + ")\n" +
+            "• Ligação: " + ligacao + "\n" +
+            "• Conta hoje: " + brl(conta) + "\n" +
+            "• Economia estimada: " + brl(economia) + "/mês (" + Math.round(pct) + "%)\n" +
+            "• Sistema: " + kwp.toFixed(2).replace(".", ",") + " kWp\n" +
+            "• Investimento estimado: " + brl(investimento) + "\n\n" +
+            "Vou mandar a foto da minha conta de luz.";
+  if (origem)  msg += "\n\n[origem: " + origem + "]";
+  if (clickId) msg += "\n[id: " + clickId + "]";
+
+  var link = "https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(msg);
+
+  // ---- link rico em TODOS os CTAs: quem simulou leva os números junto ----
+  ["btnZap", "btnZap2", "zapFlut", "peZap", "btnZapSobre"].forEach(function(id){
+    var el = $(id); if (el) el.href = link;
+  });
+  var bBat = $("btnZapBateria");
+  if (bBat) bBat.href = link + encodeURIComponent("\n• Interesse: quero avaliar bateria");
+
+  // ---- urgência real do Fio B, com o ano do cálculo ----
+  var prox = CFG.ano + 1, fatiaProx = CFG.escada[prox];
+  var urg = $("resUrg");
+  if (urg) urg.innerHTML = "O cálculo acima já usa o <b>Fio B de " + CFG.ano + " (" + Math.round(fatia*100) +
+    "%)</b>. Em " + prox + " ele sobe pra " + Math.round((fatiaProx||1)*100) +
+    "% e vai a 100% em 2029 — quanto antes você começa, mais anos economiza com a fatia menor.";
+
+  // ---- barra fixa e header assumem o estado "pós-simulação" ----
+  var barra = $("barraCta"), barraBtn = $("barraBtn"), barraEco = $("barraEco");
+  if (barra) {
+    barra.classList.add("eco");
+    barraBtn.className = "btn btn-zap";
+    barraBtn.href = link;
+    barraBtn.textContent = "Enviar minha conta no WhatsApp";
+    barraEco.textContent = "Economia estimada ~" + brl(economia) + "/mês";
+  }
+  var topoCta = $("topoCta");
+  if (topoCta) { topoCta.textContent = "Enviar minha conta"; topoCta.href = link; topoCta.classList.add("btn-zap"); topoCta.classList.remove("btn-azul"); }
+
+  // ---- trocar de tela ----
+  $("passo1").style.display = "none";
+  $("passo2").classList.add("ver");
+
+  // no mobile, garante que o resultado apareça no topo da tela
+  if (window.innerWidth < 940) {
+    document.getElementById("simulador").scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+
+  // ---- evento de conversão (plugue seu GA4/Ads/Meta aqui) ----
+  if (window.dataLayer) {
+    window.dataLayer.push({
+      event: "simulacao_concluida",
+      valor_conta: conta,
+      economia_estimada: Math.round(economia),
+      sistema_kwp: +kwp.toFixed(2),
+      tipo_imovel: tipo,
+      estado: sigla
+    });
+  }
+}
+
+$("btnCalc").addEventListener("click", calcular);
+
+/* ---------- links de WhatsApp genéricos ---------- */
+var msgBase = "Olá! Vim pelo site da Solar Fácil e quero simular minha economia. Vou mandar a foto da minha conta de luz.";
+if (origem) msgBase += "\n\n[origem: " + origem + "]";
+var linkBase = "https://wa.me/" + CFG.whatsapp + "?text=" + encodeURIComponent(msgBase);
+["btnZap2", "zapFlut", "peZap", "btnZap", "btnZapSobre", "btnZapBateria"].forEach(function(id){
+  var el = $(id);
+  if (el) el.href = linkBase;
+});
+
+// volta tudo ao estado "antes de simular" — senão o CTA carrega números velhos
+function reverterEstado(){
+  ["btnZap", "btnZap2", "zapFlut", "peZap", "btnZapSobre", "btnZapBateria"].forEach(function(id){
+    var el = $(id); if (el) el.href = linkBase;
+  });
+  var barra = $("barraCta"), barraBtn = $("barraBtn");
+  if (barra) {
+    barra.classList.remove("eco");
+    barraBtn.className = "btn btn-ouro";
+    barraBtn.href = "#simulador";
+    barraBtn.textContent = "Calcular minha economia";
+  }
+  var topoCta = $("topoCta");
+  if (topoCta) { topoCta.textContent = "Calcular economia"; topoCta.href = "#simulador"; topoCta.classList.add("btn-azul"); topoCta.classList.remove("btn-zap"); }
+}
+
+$("btnVoltar").addEventListener("click", function(){
+  $("passo2").classList.remove("ver");
+  $("passo1").style.display = "";
+  reverterEstado();
+  inConta.focus();
+});
+
+/* ---------- botão flutuante só entra depois do simulador ----------
+   Assim ele nunca cobre o formulário no celular.                    */
+if (window.innerWidth < 940) {
+  var sentinela = $("sentinela"), barra = $("barraCta");
+
+  // Barra fixa de CTA: some no topo (não cobre o formulário), entra assim
+  // que o simulador sai da tela. Leitura de posição direta, sem API que
+  // possa não disparar.
+  function avaliarBarra(){
+    barra.classList.toggle("ver", sentinela.getBoundingClientRect().top < 0);
+  }
+
+  window.addEventListener("scroll", avaliarBarra, { passive: true });
+  window.addEventListener("resize", avaliarBarra, { passive: true });
+  avaliarBarra();
+}
+
+/* ---------- movimento: elementos entram conforme você rola ----------
+   Mesmo padrão do botão acima: leitura de posição no scroll, sem
+   IntersectionObserver e sem biblioteca.
+
+   O truque de segurança: a classe que ESCONDE é aplicada aqui pelo JS.
+   Se este script não rodar, nada some — a página simplesmente aparece
+   inteira, sem animação. Nunca o contrário.
+
+   E a lista encolhe: cada elemento que entra sai da fila, então o custo
+   por rolagem cai até zerar.                                            */
+(function(){
+  var querMenosMovimento = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (querMenosMovimento) return;   // respeita a preferência do sistema
+
+  var alvos = [];
+  [
+    [".cabeca", 0],
+    [".dif", 70], [".pilar", 90], [".card-v", 90], [".fiob", 0],
+    [".fluxo", 90], [".bx", 90], [".bh", 90],
+    [".passo", 60], [".depo", 90],
+    [".manifesto", 0], [".citacao", 90], [".sobre-cta", 0], [".fim", 0],
+    [".faixa-item", 60], [".q", 30]
+  ].forEach(function(par){
+    var sel = par[0], passo = par[1], i = 0;
+    Array.prototype.forEach.call(document.querySelectorAll(sel), function(el){
+      // o hero é a primeira tela: ele já tem a própria entrada, não entra na fila
+      if (el.closest(".hero")) return;
+      el.classList.add("rv");
+      // cascata orgânica: escalona até o 5º item e estabiliza (não reinicia
+      // em blocos como o antigo i%4, que "pipocava").
+      el._d = passo ? Math.min(i, 5) * passo : 0;
+      if (el._d) el.style.transitionDelay = el._d + "ms";
+      i++;
+      alvos.push(el);
+    });
+  });
+
+  // barras do Fio B: guarda a altura final e zera, pra crescerem ao aparecer
+  var barras = [];
+  Array.prototype.forEach.call(document.querySelectorAll(".degrau .fill"), function(f){
+    barras.push({ el: f, alvo: f.style.height });
+    f.style.height = "0%";
+  });
+  var escada = document.getElementById("escada");
+
+  function revelar(){
+    var altura = window.innerHeight;
+    for (var i = alvos.length - 1; i >= 0; i--) {
+      var el = alvos[i];
+      // entra quando o topo do elemento cruza 88% da tela
+      if (el.getBoundingClientRect().top < altura * 0.88) {
+        el.classList.add("vis");
+        alvos.splice(i, 1);          // já apareceu: sai da fila
+        // o atraso da cascata não pode ficar preso no elemento, senão o
+        // hover reage devagar. Zera assim que a entrada termina.
+        (function(e){ setTimeout(function(){ e.style.transitionDelay = "0ms"; }, e._d + 900); })(el);
+      }
+    }
+    if (escada && barras.length && escada.getBoundingClientRect().top < altura * 0.85) {
+      barras.forEach(function(b, k){
+        b.el.style.transitionDelay = (k * 80) + "ms";   // onda: uma barra após a outra
+        b.el.style.height = b.alvo;
+      });
+      barras = [];
+    }
+    if (!alvos.length && !barras.length) {
+      window.removeEventListener("scroll", revelar);   // trabalho terminado
+      window.removeEventListener("resize", revelar);
+    }
+  }
+
+  window.addEventListener("scroll", revelar, { passive: true });
+  window.addEventListener("resize", revelar, { passive: true });
+  revelar();   // o que já está na primeira tela entra na hora
+})();
+
+})();
+</script>
+
+</body>
+</html>
